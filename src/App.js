@@ -18,14 +18,19 @@ function App() {
 
   return (
     <div className="App">
-      <Form
-        notes={notes}
-        setNotes={setNotes}
-      />
-      <ListNotes
-        notes={notes}
-        setNotes={setNotes}
-      />
+      <context.Provider value={{ notesWrapper: notes }}>
+        <div>
+          <ListNotes
+            notes={notes}
+            setNotes={setNotes}
+          />
+
+          <Form
+            notes={notes}
+            setNotes={setNotes}
+          />
+        </div>
+      </context.Provider>
     </div>
   );
 }

@@ -1,0 +1,37 @@
+input {
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #757575; /* Green */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button-direction {
+  background-color: #e2e0e0;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.button-remove {
+  background-color: #d16262;
+  margin-right: 10px;
+}
+
+.button-add {
+  background-color: #86d486;
+  margin-right: 10px;
+}
