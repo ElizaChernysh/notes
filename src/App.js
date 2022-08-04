@@ -3,34 +3,38 @@ import { v4 as uuidv4 } from "uuid";
 import './App.css';
 
 function App() {
-  const [task, setTask] = useState("");
+  const [note, setNote] = useState("");
   const [error, setError] = useState(false);
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("tasks")) || []
+  const [notes, setNotes] = useState(
+    JSON.parse(localStorage.getItem("notes")) || []
   );
 
-  console.log(tasks);
+  console.log(notes);
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    if (task.trim() !== "") {
-      const newTask = {
+    if (note.trim() !== "") {
+      const newnote = {
         id: uuidv4(),
-        note: task,
-        // itemList: [{}]
+        note: note,
       };
 
-      setTasks((tasks) => [...tasks, newTask]);
-      setTask("");
+      setNotes((notes) => [...notes, newnote]);
+      setNote("");
     } else {
       setError(true);
-      setTask("");
+      setNote("");
     }
+  };
+
+  const deleteNote = (id) => {
+    const newNotes = [...notes].filter((item) => item.id !== id)
+    setNotes(newNotes);
   };
 
   return (
@@ -38,20 +42,23 @@ function App() {
       <form onSubmit={handleFormSubmit}>
         <input
           name="user"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
           placeholder="Create a note"
         />
-        {error && <p>Enter something</p>}
+        {error && <p style={{color: 'tomato'}}>Enter something</p>}
         <button type="submit">Add</button>
       </form>
 
       <ul>
-        {tasks.map((item, index) => {
+        {notes.map((item, index) => {
           return (
             <>
             <li key={item.id}>{item.note}</li>
-            <button type="button">
+            <button 
+              type="button"
+              onClick={() => deleteNote(item.id)}
+            >
               Delete
             </button>
             </>
