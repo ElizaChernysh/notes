@@ -6,7 +6,7 @@ import './Form.css';
 
 export const Form = ({ notes, setNotes, noteId }) => {
   const [title, setTitle] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const { notesWrapper } = useContext(context);
 
   const initialNote = {
@@ -17,27 +17,30 @@ export const Form = ({ notes, setNotes, noteId }) => {
     isShowFuncButton: true,
   };
 
-  const addNoteValue = () => {
-    if (title.trim() !== "") {
-      if (notesWrapper.length) {
-        setNotes([...JSON.parse(JSON.stringify(notesWrapper)), initialNote]);
-        setTitle("");
+
+  const handleSubmit = (event, noteId) => {
+    event.preventDefault();
+
+    if (noteId) {
+      if (title.trim() !== "") {
+        const newNotes = [...JSON.parse(JSON.stringify(notesWrapper))];
+        addSubNotes(newNotes);
+        setNotes(newNotes);
       } else {
-        setNotes([initialNote]);
-        setTitle("");
+        setError("Please, enter note!");
       }
     } else {
-      setError(true)
-    }
-  };
-
-  const addInnerNote = () => {
-    if (title.trim() !== "") {
-      const newNotes = [...JSON.parse(JSON.stringify(notesWrapper))];
-      addSubNotes(newNotes);
-      setNotes(newNotes);
-    } else {
-      setError("Please, enter note!");
+      if (title.trim() !== "") {
+        if (notesWrapper.length) {
+          setNotes([...JSON.parse(JSON.stringify(notesWrapper)), initialNote]);
+          setTitle("");
+        } else {
+          setNotes([initialNote]);
+          setTitle("");
+        }
+      } else {
+        setError("Please, enter note!");
+      }
     }
   };
 
@@ -66,9 +69,7 @@ export const Form = ({ notes, setNotes, noteId }) => {
 
   return (
     <form
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
+      onSubmit={(event) => handleSubmit(event, noteId)}
     >
       <input
         name="text"
@@ -79,7 +80,7 @@ export const Form = ({ notes, setNotes, noteId }) => {
         //   required: true,
         // })}
       />
-      <button type="submit" onClick={noteId ? addInnerNote : addNoteValue}>
+      <button type="submit">
         Add
       </button>
       {error && <p style={{ color: "tomato" }}>{error}</p>}
